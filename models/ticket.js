@@ -4,7 +4,7 @@ class Ticket {
 
 
     constructor(numero) {
-        this.id = uuidv4;
+        this.id = uuidv4();
         this.num = numero;
         this.escritorio = null;
         this.agente = null;

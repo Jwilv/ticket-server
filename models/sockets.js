@@ -1,3 +1,4 @@
+const TicketList = require("./ticket-list");
 
 
 
@@ -6,6 +7,8 @@ class Sockets {
     constructor(io) {
         this.io = io;
 
+        //instancia de TicketList
+        this.TicketList = new TicketList();
 
         this.socketEvents();
     }
@@ -17,6 +20,10 @@ class Sockets {
 
 
             //Emitir al cliente conectado todas las bandas actuales
+            socket.on('solicitar-ticket',(data, callback)=>{
+                const newTicket  = this.TicketList.createTicket();
+                callback(newTicket);
+            })
             
         })
 
