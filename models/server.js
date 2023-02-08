@@ -20,11 +20,21 @@ class Server {
         //configuraciones de sockets
         this.io = socketio(this.server, {/* configuraciones */});
 
+        this.sockets = new Sockets( this.io);
+
     }
 
     middelwares(){
         //desplegar directorio publico
         this.app.use( express.static( path.resolve( __dirname, '../public' ) ) );
+
+        //get de el historial de eventos
+        this.app.get('/historial', (req,res)=>{
+            res.json({
+                ok:true,
+                ultimos: this.sockets.TicketList.showNumbers
+            })
+        })
 
         //configuracion cors
         this.app.use( cors() );
@@ -38,13 +48,13 @@ class Server {
         });
     }
 
-    configureSockets(){
-        new Sockets( this.io);
-    }
+    // configureSockets(){
+    //     new Sockets( this.io);
+    // }
 
     execute(){
         this.middelwares();
-        this.configureSockets();
+        //this.configureSockets();
         this.goServer();
     }
 
