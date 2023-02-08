@@ -10,7 +10,7 @@ const cors = require('cors');
 class Server {
 
 
-    constructor(){
+    constructor() {
         this.app = express();
         this.port = process.env.PORT;
 
@@ -18,32 +18,33 @@ class Server {
         this.server = http.createServer(this.app);
 
         //configuraciones de sockets
-        this.io = socketio(this.server, {/* configuraciones */});
+        this.io = socketio(this.server, {/* configuraciones */ });
 
-        this.sockets = new Sockets( this.io);
+        this.sockets = new Sockets(this.io);
 
     }
 
-    middelwares(){
+    middelwares() {
         //desplegar directorio publico
-        this.app.use( express.static( path.resolve( __dirname, '../public' ) ) );
+        this.app.use(express.static(path.resolve(__dirname, '../public')));
+
+
+        //configuracion cors
+        this.app.use(cors());
 
         //get de el historial de eventos
-        this.app.get('/historial', (req,res)=>{
+        this.app.get('/historial', (req, res) => {
             res.json({
-                ok:true,
+                ok: true,
                 ultimos: this.sockets.TicketList.showNumbers
             })
         })
 
-        //configuracion cors
-        this.app.use( cors() );
-
     }
 
-    goServer(){
+    goServer() {
         //desplegar server
-        this.server.listen(this.port, ()=>{
+        this.server.listen(this.port, () => {
             console.log(`server corriendo en el port:${this.port}`);
         });
     }
@@ -52,7 +53,7 @@ class Server {
     //     new Sockets( this.io);
     // }
 
-    execute(){
+    execute() {
         this.middelwares();
         //this.configureSockets();
         this.goServer();
