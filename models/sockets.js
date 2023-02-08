@@ -28,6 +28,8 @@ class Sockets {
             socket.on('siguiente-ticket',({agente, escritorio}, callback)=>{
                 const siguienteTicket = this.TicketList.asignarTicket(agente, escritorio);
                 callback(siguienteTicket);
+
+                this.io.emit('ticket-asignado',this.TicketList.showNumbers)
             })
             
         })
